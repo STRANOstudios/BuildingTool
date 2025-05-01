@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562ae68529b557641ae05ad616f6bd4f, type: 3}
+  m_Name: PackManager
+  m_EditorClassIdentifier: 
+  m_packs:
+  - m_name: Test Pack
+    m_floors:
+    - {fileID: 6361006474009616529, guid: 3260be5be3802fb4985444fa8a5f0a6c, type: 3}
+    m_walls:
+    - {fileID: 6982340322642709879, guid: 9ece353d44a2d4043aeabee3998d39ac, type: 3}
+    m_roofs:
+    - {fileID: 3077547101249060013, guid: fdee6c21821c5094ca2050a3690891a2, type: 3}

@@ -1,0 +1,18 @@
+{
+    "name": "BuildingTool.Editor.PackCreator",
+    "rootNamespace": "",
+    "references": [
+        "GUID:145651c138e3703468dc464b285dfc3c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+    "name": "BuildingTool.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:609ab754e5d43a245baca9a401c9506e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
