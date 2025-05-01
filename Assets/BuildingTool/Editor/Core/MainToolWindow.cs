@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEngine;
 
 using BuildingTool.Editor.Builder3D.EditorWindows;
 using BuildingTool.Editor.PackCreator.EditorWindows;
@@ -18,35 +19,21 @@ namespace BuildingTool.Editor.Core
         [MenuItem("Tools/Building Tool/Launch Tool", priority = -1)]
         public static void Open()
         {
-            // Open Builder window first and dock others to it
-            BuildingTool3DEditorWindow builder = EditorWindow.GetWindow<BuildingTool3DEditorWindow>();
-            builder.titleContent = new UnityEngine.GUIContent("Builder Tool");
-
-            PackCreatorWindow pack = EditorWindow.CreateWindow<PackCreatorWindow>();
-            pack.titleContent = new UnityEngine.GUIContent("Pack Manager");
-
-            SettingsWindow settings = EditorWindow.CreateWindow<SettingsWindow>();
-            settings.titleContent = new UnityEngine.GUIContent("Settings");
-
-            // Dock pack and settings to builder
-            DockWindowTo(pack, builder);
-            DockWindowTo(settings, builder);
-
+            // Open builder first — it will be the main anchor
+            var builder = EditorWindow.CreateWindow<BuildingTool3DEditorWindow>();
+            builder.titleContent = new GUIContent("Builder Tool");
             builder.Show();
-        }
 
-        #endregion
+            // Dock other windows next to the builder
+            var pack = EditorWindow.CreateWindow<PackCreatorWindow>(
+                desiredDockNextTo: new[] { builder.GetType() });
+            pack.titleContent = new GUIContent("Pack Manager");
+            pack.Show();
 
-        #region Docking ----------------------------------------------------
-
-        private static void DockWindowTo(EditorWindow target, EditorWindow anchor)
-        {
-            var anchorParent = typeof(EditorWindow).GetProperty("m_Parent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(anchor);
-            var targetParentField = typeof(EditorWindow).GetField("m_Parent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            if (anchorParent != null && targetParentField != null)
-            {
-                targetParentField.SetValue(target, anchorParent);
-            }
+            var settings = EditorWindow.CreateWindow<SettingsWindow>(
+                desiredDockNextTo: new[] { builder.GetType() });
+            settings.titleContent = new GUIContent("Settings");
+            settings.Show();
         }
 
         #endregion
