@@ -165,10 +165,6 @@ namespace BuildingTool.Editor.Builder3D.Handlers
             return true;
         }
 
-        /// <summary>
-        /// Computes the oriented local-space bounding box that includes all child renderers.
-        /// Returns the world-space center, rotated size, and rotation.
-        /// </summary>
         private bool GetOrientedOverlapBox(GameObject root, out Vector3 center, out Vector3 size, out Quaternion rotation)
         {
             center = Vector3.zero;

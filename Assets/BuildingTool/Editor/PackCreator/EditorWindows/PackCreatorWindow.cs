@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using BuildingTool.Runtime.Configuration;
 using BuildingTool.Runtime.Utilities;
-using Unity.VisualScripting;
 
 namespace BuildingTool.Editor.PackCreator.EditorWindows
 {
@@ -15,6 +14,8 @@ namespace BuildingTool.Editor.PackCreator.EditorWindows
     /// </summary>
     public class PackCreatorWindow : EditorWindow
     {
+        private const string Name = "Pack Manager";
+
         #region Variables --------------------------------------------------
 
         private PackManager m_packManager;
@@ -26,11 +27,11 @@ namespace BuildingTool.Editor.PackCreator.EditorWindows
 
         #region Menu & Lifecycle -------------------------------------------
 
-        [MenuItem("Tools/Building Tool/Modular Pack Manager")]
+        [MenuItem("Tools/Building Tool/" + Name, priority = 0)]
         public static void Open()
         {
             PackCreatorWindow window = GetWindow<PackCreatorWindow>();
-            window.titleContent = new GUIContent("Modular Pack Manager");
+            window.titleContent = new GUIContent(Name);
             window.minSize = new Vector2(400f, 300f);
             window.Show();
         }

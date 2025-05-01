@@ -22,6 +22,15 @@ namespace BuildingTool.Runtime.Utilities
 
         private const string Prefix = "BuildingTool";
 
+        // Enable/disable global logging
+        public static bool Enabled = true;
+
+        // Enable/disable per-log-level
+        public static bool ShowSuccess = true;
+        public static bool ShowWarning = true;
+        public static bool ShowError = true;
+        public static bool ShowInfo = true;
+
         /// <summary>
         /// Logs a success message with a green "[BuildingTool]" prefix.
         /// Use this for confirmations of expected or completed actions.
@@ -29,6 +38,7 @@ namespace BuildingTool.Runtime.Utilities
         /// <param name="message">The content of the log message.</param>
         public static void LogSuccess(string message)
         {
+            if (!Enabled || !ShowSuccess) return;
             Debug.Log($"[<color={Colors.Success}>{Prefix}</color>] {message}");
         }
 
@@ -39,6 +49,7 @@ namespace BuildingTool.Runtime.Utilities
         /// <param name="message">The content of the log message.</param>
         public static void LogWarning(string message)
         {
+            if (!Enabled || !ShowWarning) return;
             Debug.LogWarning($"[<color={Colors.Warning}>{Prefix}</color>] {message}");
         }
 
@@ -49,6 +60,7 @@ namespace BuildingTool.Runtime.Utilities
         /// <param name="message">The content of the log message.</param>
         public static void LogError(string message)
         {
+            if (!Enabled || !ShowError) return;
             Debug.LogError($"[<color={Colors.Error}>{Prefix}</color>] {message}");
         }
 
@@ -59,6 +71,7 @@ namespace BuildingTool.Runtime.Utilities
         /// <param name="message">The content of the log message.</param>
         public static void LogInfo(string message)
         {
+            if (!Enabled || !ShowInfo) return;
             Debug.Log($"[<color={Colors.Info}>{Prefix}</color>] {message}");
         }
 

@@ -94,8 +94,7 @@ namespace BuildingTool.Editor.Builder3D.Handlers
                     Transform parent = HierarchyOrganizer.GetPlacementParent(this.m_planeHeight, category);
 
                     GameObject placed = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
-                    placed.transform.position = this.m_ghostHandler.Position;
-                    placed.transform.rotation = this.m_ghostHandler.Rotation;
+                    placed.transform.SetPositionAndRotation(this.m_ghostHandler.Position, this.m_ghostHandler.Rotation);
 
                     Undo.RegisterCreatedObjectUndo(placed, "Place Building Module");
                     EditorSceneManager.MarkSceneDirty(placed.scene);

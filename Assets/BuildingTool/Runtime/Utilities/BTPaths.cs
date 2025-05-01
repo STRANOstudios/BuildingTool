@@ -20,5 +20,22 @@ namespace BuildingTool.Runtime.Utilities
         /// Asset path for the ColorConfig ScriptableObject.
         /// </summary>
         public const string ColorConfigAsset = DataRoot + "/ColorConfig.asset";
+
+        /// <summary>
+        /// Directory path for generated prefab assets.
+        /// </summary>
+        private static string m_savedPrefabDirectory = "Assets/Levels/Prefabs/BuildingTool/GeneratedPrefabs/";
+
+        public static string SavedPrefabDirectory => m_savedPrefabDirectory;
+
+        public static void SetPrefabSaveDirectory(string path)
+        {
+            m_savedPrefabDirectory = path;
+        }
+
+        /// <summary>
+        /// Directory path for generated prefab assets.
+        /// </summary>
+        public const string LogoDirectory = "Assets/BuildingTool/Editor/Resources/logo.png";
     }
 }

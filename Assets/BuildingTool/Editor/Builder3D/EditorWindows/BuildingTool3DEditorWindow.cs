@@ -16,6 +16,8 @@ namespace BuildingTool.Editor.Builder3D.EditorWindows
     /// </summary>
     public class BuildingTool3DEditorWindow : EditorWindow
     {
+        private const string Name = "Builder";
+
         #region Variables --------------------------------------------------
 
         private PackManager m_packManager;
@@ -45,11 +47,11 @@ namespace BuildingTool.Editor.Builder3D.EditorWindows
 
         #region Menu & Lifecycle -------------------------------------------
 
-        [MenuItem("Tools/Building Tool/3D Modular Building Tool")]
+        [MenuItem("Tools/Building Tool/" + Name, priority = 0)]
         public static void Open()
         {
             BuildingTool3DEditorWindow window = GetWindow<BuildingTool3DEditorWindow>();
-            window.titleContent = new GUIContent("3D Modular Building Tool");
+            window.titleContent = new GUIContent(Name);
             window.minSize = new Vector2(600f, 400f);
             window.Show();
         }
@@ -111,6 +113,11 @@ namespace BuildingTool.Editor.Builder3D.EditorWindows
             else
             {
                 EditorGUILayout.HelpBox("No PackManager found or it's empty. Please create at least one pack.", MessageType.Warning);
+            }
+
+            if (GUILayout.Button("Save Structure as Prefab"))
+            {
+                PrefabSaver.SaveStructureAsPrefab();
             }
 
             EditorGUILayout.EndScrollView();
