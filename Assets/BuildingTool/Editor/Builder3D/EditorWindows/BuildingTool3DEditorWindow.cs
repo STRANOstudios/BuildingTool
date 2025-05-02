@@ -120,6 +120,8 @@ namespace BuildingTool.Editor.Builder3D.EditorWindows
                 PrefabSaver.SaveStructureAsPrefab();
             }
 
+            EditorGUILayout.HelpBox(BTText.Tutorial, MessageType.Info);
+
             EditorGUILayout.EndScrollView();
         }
 
@@ -147,6 +149,9 @@ namespace BuildingTool.Editor.Builder3D.EditorWindows
             Camera sceneCamera = sceneView.camera;
             Vector3 planeCenter = sceneCamera.transform.position + sceneCamera.transform.forward * 100f;
             planeCenter.y = this.m_planeHeight;
+
+
+            Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
 
             Matrix4x4 matrix = Matrix4x4.TRS(planeCenter, Quaternion.identity, Vector3.one);
             Handles.matrix = matrix;

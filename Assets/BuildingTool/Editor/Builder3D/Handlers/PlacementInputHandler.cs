@@ -21,6 +21,7 @@ namespace BuildingTool.Editor.Builder3D.Handlers
         private readonly System.Func<string> m_getSelectedCategory;
         private readonly System.Action m_clearSelectionCallback;
         private float m_planeHeight;
+        private bool m_smartSnapEnabled = true;
 
         #endregion
 
@@ -88,7 +89,9 @@ namespace BuildingTool.Editor.Builder3D.Handlers
 
             if (e.type == EventType.MouseDown && e.button == 0)
             {
-                if (this.m_ghostHandler.IsValidPlacement())
+                bool isIgnoringCollisions = Event.current.shift;
+
+                if (isIgnoringCollisions || this.m_ghostHandler.IsValidPlacement())
                 {
                     string category = this.m_getSelectedCategory.Invoke();
                     Transform parent = HierarchyOrganizer.GetPlacementParent(this.m_planeHeight, category);
@@ -116,6 +119,9 @@ namespace BuildingTool.Editor.Builder3D.Handlers
                 BTDebug.LogInfo("Selection cleared.");
                 e.Use();
             }
+
+            bool isAltHeld = Event.current.alt;
+            m_smartSnapEnabled = !isAltHeld;
         }
 
         #endregion
@@ -135,26 +141,23 @@ namespace BuildingTool.Editor.Builder3D.Handlers
                 // Draw debugging gizmo for smart snap
                 //SmartSnapUtility.DrawSmartSnapBox(ghost, 3f); // Only Debug
 
-                // Temporarily place the ghost at the base position
                 ghost.transform.position = position;
 
-                // Try smart snapping first
-                Vector3 smartSnapped = SmartSnapUtility.ComputeSmartSnappedPosition(ghost, 3f);
+                if (m_smartSnapEnabled)
+                {
+                    Vector3 smartSnapped = SmartSnapUtility.ComputeSmartSnappedPosition(ghost, 3f);
 
-                // If smart snap changed the position, use it
-                if (smartSnapped != ghost.transform.position)
-                {
-                    position = smartSnapped;
+                    if (smartSnapped != ghost.transform.position)
+                    {
+                        return smartSnapped;
+                    }
                 }
-                else
-                {
-                    // Fallback to global snap
-                    position = new Vector3(
-                        Mathf.Round(position.x / snap.x) * snap.x,
-                        Mathf.Round(position.y / snap.y) * snap.y,
-                        Mathf.Round(position.z / snap.z) * snap.z
-                    );
-                }
+
+                position = new Vector3(
+                    Mathf.Round(position.x / snap.x) * snap.x,
+                    Mathf.Round(position.y / snap.y) * snap.y,
+                    Mathf.Round(position.z / snap.z) * snap.z
+                );
             }
 
             return position;
