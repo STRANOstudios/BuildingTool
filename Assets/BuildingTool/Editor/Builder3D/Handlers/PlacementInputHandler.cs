@@ -129,11 +129,35 @@ namespace BuildingTool.Editor.Builder3D.Handlers
 
             Vector3 snap = EditorSnapSettings.move;
 
-            return new Vector3(
-                Mathf.Round(position.x / snap.x) * snap.x,
-                Mathf.Round(position.y / snap.y) * snap.y,
-                Mathf.Round(position.z / snap.z) * snap.z
-            );
+            GameObject ghost = this.m_ghostHandler.CurrentPreview;
+            if (ghost != null)
+            {
+                // Draw debugging gizmo for smart snap
+                //SmartSnapUtility.DrawSmartSnapBox(ghost, 3f); // Only Debug
+
+                // Temporarily place the ghost at the base position
+                ghost.transform.position = position;
+
+                // Try smart snapping first
+                Vector3 smartSnapped = SmartSnapUtility.ComputeSmartSnappedPosition(ghost, 3f);
+
+                // If smart snap changed the position, use it
+                if (smartSnapped != ghost.transform.position)
+                {
+                    position = smartSnapped;
+                }
+                else
+                {
+                    // Fallback to global snap
+                    position = new Vector3(
+                        Mathf.Round(position.x / snap.x) * snap.x,
+                        Mathf.Round(position.y / snap.y) * snap.y,
+                        Mathf.Round(position.z / snap.z) * snap.z
+                    );
+                }
+            }
+
+            return position;
         }
 
         #endregion

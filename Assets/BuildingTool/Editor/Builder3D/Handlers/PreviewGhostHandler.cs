@@ -26,6 +26,7 @@ namespace BuildingTool.Editor.Builder3D.Handlers
 
         public Vector3 Position => this.m_previewInstance != null ? this.m_previewInstance.transform.position : Vector3.zero;
         public Quaternion Rotation => this.m_rotation;
+        public GameObject CurrentPreview => this.m_previewInstance;
 
         #endregion
 
@@ -145,14 +146,14 @@ namespace BuildingTool.Editor.Builder3D.Handlers
 
         private bool CheckForOverlap()
         {
-            if (!this.GetOrientedOverlapBox(this.m_previewInstance, out Vector3 center, out Vector3 size, out Quaternion rotation))
+            if (!BTMath.TryGetOrientedOverlapBox(this.m_previewInstance, out Vector3 center, out Vector3 size, out Quaternion rotation))
                 return true;
 
             Vector3 halfExtents = size * 0.5f;
 
             Collider[] hits = Physics.OverlapBox(center, halfExtents, rotation);
             hits = System.Array.FindAll(hits, h =>
-                h != null && !IsChildOf(h.gameObject, this.m_previewInstance)
+                h != null && !SmartSnapUtility.IsChildOf(h.gameObject, this.m_previewInstance)
             );
 
             if (hits.Length > 0)
@@ -165,67 +166,6 @@ namespace BuildingTool.Editor.Builder3D.Handlers
             return true;
         }
 
-        private bool GetOrientedOverlapBox(GameObject root, out Vector3 center, out Vector3 size, out Quaternion rotation)
-        {
-            center = Vector3.zero;
-            size = Vector3.one;
-            rotation = Quaternion.identity;
-
-            if (root == null) return false;
-
-            Renderer[] renderers = root.GetComponentsInChildren<Renderer>();
-            if (renderers.Length == 0) return false;
-
-            Bounds localBounds = new Bounds(Vector3.zero, Vector3.zero);
-            bool first = true;
-
-            foreach (Renderer renderer in renderers)
-            {
-                Transform t = renderer.transform;
-                MeshFilter mf = renderer.GetComponent<MeshFilter>();
-                if (mf == null || mf.sharedMesh == null)
-                    continue;
-
-                // Get bounds of the mesh in its local space
-                Bounds meshBounds = mf.sharedMesh.bounds;
-
-                // Transform mesh bounds center to local space of the root
-                Vector3 localCenter = root.transform.InverseTransformPoint(t.TransformPoint(meshBounds.center));
-                Vector3 localSize = Vector3.Scale(meshBounds.size, t.lossyScale);
-
-                if (first)
-                {
-                    localBounds = new Bounds(localCenter, localSize);
-                    first = false;
-                }
-                else
-                {
-                    localBounds.Encapsulate(new Bounds(localCenter, localSize));
-                }
-            }
-
-            if (first)
-                return false;
-
-            center = root.transform.TransformPoint(localBounds.center);
-            size = localBounds.size * 0.90f;
-            rotation = root.transform.rotation;
-            
-            return true;
-        }
-
-        private bool IsChildOf(GameObject obj, GameObject potentialParent)
-        {
-            Transform current = obj.transform;
-            while (current != null)
-            {
-                if (current == potentialParent.transform)
-                    return true;
-                current = current.parent;
-            }
-            return false;
-        }
-
         #endregion
 
         #region Gizmos -------------------------------------------------------
@@ -236,7 +176,7 @@ namespace BuildingTool.Editor.Builder3D.Handlers
         /// </summary>
         public void DrawDebugOverlapBox()
         {
-            if (!this.GetOrientedOverlapBox(this.m_previewInstance, out Vector3 center, out Vector3 size, out Quaternion rotation))
+            if (!BTMath.TryGetOrientedOverlapBox(this.m_previewInstance, out Vector3 center, out Vector3 size, out Quaternion rotation))
                 return;
 
             Handles.color = this.m_isCurrentPositionValid
