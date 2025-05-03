@@ -83,7 +83,7 @@ namespace BuildingTool.Editor.Builder3D.Handlers
             if (e.type == EventType.ScrollWheel)
             {
                 float direction = Mathf.Sign(e.delta.y);
-                this.m_ghostHandler.RotatePreview(direction * 15f);
+                this.m_ghostHandler.RotatePreview(direction * EditorSnapSettings.rotate);
                 e.Use();
             }
 
