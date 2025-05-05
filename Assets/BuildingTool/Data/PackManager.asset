@@ -19,5 +19,7 @@ MonoBehaviour:
     m_walls:
     - {fileID: 6982340322642709879, guid: 9ece353d44a2d4043aeabee3998d39ac, type: 3}
     - {fileID: 1196890904491389684, guid: 23975ee97daeb8941904d8341b62df80, type: 3}
+    - {fileID: 1196890904491389684, guid: 78742fe45e537474e8b0811e8080a894, type: 3}
+    - {fileID: 6982340322642709879, guid: accd9151c94c32748a0e0f5dd088445f, type: 3}
     m_roofs:
     - {fileID: 3077547101249060013, guid: fdee6c21821c5094ca2050a3690891a2, type: 3}
